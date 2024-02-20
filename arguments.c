@@ -30,7 +30,7 @@ static int	check_numerics(char *s)
 	return (0);
 }
 
-static long int	ft_atol(char *str)
+long int	ft_atol(char *str)
 {
 	long int	nb;
 
@@ -82,4 +82,6 @@ void	set_args(char **argv, t_args *args)
 	args->time_to_sleep = check_args(argv[4]);
 	if (argv[5])
 		args->number_of_times_each_philosopher_must_eat = check_args(argv[5]);
+	else
+		args->number_of_times_each_philosopher_must_eat = -1;
 }
