@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/02/16 16:33:33 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:29:51 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,27 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <limits.h>
+# include <errno.h> //error codes
 
-// typedef struct s_fork	t_fork;
-// typedef struct s_philo	t_philo;
+typedef struct s_fork	t_fork;
+typedef struct s_philo	t_philo;
 typedef struct s_args
 {
-	int		number_of_philosophers;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		number_of_times_each_philosopher_must_eat;
+	long int	number_of_philosophers;
+	long int	time_to_die;
+	long int	time_to_eat;
+	long int	time_to_sleep;
+	long int	number_of_times_each_philosopher_must_eat;
 	t_fork	*forks;
 	t_philo	*philos;
-	int		start;
-	int		end;
+	long int	start;
+	long int	end;
 }		t_args;
 
 typedef struct s_fork
 {
 	pthread_mutex_t	fork;
-	int				fork_id;
+	long			fork_id;
 }		t_fork;
 
 typedef struct s_philo
@@ -47,13 +48,13 @@ typedef struct s_philo
 	int			index;
 	pthread_t	thread;
 	int			eat_count;
-	long		last_eat;
+	long int	last_eat;
 	t_fork		*left;
 	t_fork		*right;
 	int			full;
 }		t_philo;
 
-void	set_args(char **argv, t_args *args);
+void		set_args(char **argv, t_args *args);
 long int	ft_atol(char *str);
 
 #endif
