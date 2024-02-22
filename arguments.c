@@ -6,24 +6,11 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:46:28 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/02/16 16:50:52 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:52:36 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-static int	ft_strlen(char *str)
-{
-	int	len;
-
-	len = 0;
-	while (*str)
-	{
-		str++;
-		len++;
-	}
-	return (len);
-}
 
 static int	check_numerics(char *s)
 {
@@ -97,9 +84,12 @@ void	set_args(char **argv, t_args *args)
 		args->number_of_times_each_philosopher_must_eat = check_args(argv[5]);
 	else
 		args->number_of_times_each_philosopher_must_eat = -1;
-	if ((args->time_to_die < 60000) || (args->time_to_eat < 60000) || (args->time_to_sleep < 60000))
+	if ((args->time_to_die < 60000) || (args->time_to_eat < 60000) \
+	|| (args->time_to_sleep < 60000))
 	{
-		write(2, "Use numbers more than 60 or less than 2147483 for time to die/eat/sleep\n", 73);
-		exit(1);		
+		write(2, \
+			"Use numbers more than 60 or less than 2147483\n", \
+			47);
+		exit(1);
 	}
 }
