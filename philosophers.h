@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/02/22 16:52:23 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:21:47 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_philo
 	t_fork		*left;
 	t_fork		*right;
 	int			full;
+	t_args		*args;
 }		t_philo;
 
 void		set_args(char **argv, t_args *args);
@@ -63,4 +64,6 @@ int			ft_strlen(char *str);
 void		ft_thread(pthread_t *thread, \
 	void *(f)(void *), void *data, char *func);
 void		ft_mutex(pthread_mutex_t *mutex, char *func);
+
+void		*ft_malloc(int size);
 #endif
