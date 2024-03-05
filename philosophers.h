@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/04 18:21:47 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:15:16 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_args
 	long int	time_to_die;
 	long int	time_to_eat;
 	long int	time_to_sleep;
-	long int	number_of_times_each_philosopher_must_eat;
+	long int	must_eat;
 	t_fork		*forks;
 	t_philo		*philos;
 	long int	start;
@@ -49,13 +49,14 @@ typedef struct s_philo
 	pthread_t	thread;
 	int			eat_count;
 	long int	last_eat;
-	t_fork		*left;
-	t_fork		*right;
+	t_fork		*first;
+	t_fork		*second;
 	int			full;
 	t_args		*args;
 }		t_philo;
 
 void		set_args(char **argv, t_args *args);
+void		init(t_args *args);
 long int	ft_atol(char *str);
 
 int			ft_strncmp(char *s1, char *s2, int n);

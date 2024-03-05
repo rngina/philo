@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:46:28 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/02/22 16:52:36 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:15:16 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	set_args(char **argv, t_args *args)
 	args->time_to_eat = check_args(argv[3]) * 1000;
 	args->time_to_sleep = check_args(argv[4]) * 1000;
 	if (argv[5])
-		args->number_of_times_each_philosopher_must_eat = check_args(argv[5]);
+		args->must_eat = check_args(argv[5]);
 	else
-		args->number_of_times_each_philosopher_must_eat = -1;
+		args->must_eat = -1;
 	if ((args->time_to_die < 60000) || (args->time_to_eat < 60000) \
 	|| (args->time_to_sleep < 60000))
 	{
