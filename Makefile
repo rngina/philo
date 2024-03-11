@@ -6,14 +6,14 @@
 #    By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 13:48:44 by rtavabil          #+#    #+#              #
-#    Updated: 2024/03/05 14:47:40 by rtavabil         ###   ########.fr        #
+#    Updated: 2024/03/11 16:05:02 by rtavabil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := philo
 
 SRC := philosophers.c arguments.c functions.c strings.c \
-	   initialization.c
+	   initialization.c algorithm.c
 OBJ := $(SRC:.c=.o)
 
 CC := cc

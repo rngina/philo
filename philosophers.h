@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/05 16:15:16 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:30:36 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,18 @@ typedef struct s_fork	t_fork;
 typedef struct s_philo	t_philo;
 typedef struct s_args
 {
-	long int	number_of_philosophers;
-	long int	time_to_die;
-	long int	time_to_eat;
-	long int	time_to_sleep;
-	long int	must_eat;
-	t_fork		*forks;
-	t_philo		*philos;
-	long int	start;
-	long int	end;
+	long int		number_of_philosophers;
+	long int		time_to_die;
+	long int		time_to_eat;
+	long int		time_to_sleep;
+	long int		must_eat;
+	t_fork			*forks;
+	t_philo			*philos;
+	long int		start;
+	long int		end;
+
+	pthread_mutex_t	mutex;
+	long int		all_ready;
 }		t_args;
 
 typedef struct s_fork

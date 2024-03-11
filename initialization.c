@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:51:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/05 15:55:17 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:39:23 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void	init(t_args *args)
 		args->forks[i].fork_id = i;
 		i++;
 	}
+	args->all_ready = 0;
 	init_philo(args);
 }

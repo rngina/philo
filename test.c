@@ -1,14 +1,23 @@
 #include "philosophers.h"
 
-void    test(char *func)
+long    gettime(char *str)
 {
-    if (func == "lock")
-        printf("It worked\n");    
+    struct timeval  tv;
+
+    if (gettimeofday(&tv, NULL))
+        exit ;
+    if (ft_strncmp(str, "second", 7) == 0)
+        return (tv.tv_sec + tv.tv_usec / 1e6);
+    else if (ft_strncmp(str, "millisecond", 13) == 0)
+        return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
+    else if (ft_strncmp(str, "microsecond", 13) == 0)
+        return (tv.tv_sec * 1e6 + tv.tv_usec);
+    return (1);
 }
 
 int main()
 {
-    test("lock");
+    printf("%ld\n", gettime("microsecond"));
 }
 
 // void    *routine()
