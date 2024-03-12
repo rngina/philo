@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/11 14:30:36 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:18:07 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,6 @@ void		ft_thread(pthread_t *thread, \
 void		ft_mutex(pthread_mutex_t *mutex, char *func);
 
 void		*ft_malloc(int size);
+
+long		gettime(char *str);
 #endif

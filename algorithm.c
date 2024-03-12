@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:25:05 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/11 16:37:35 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:20:11 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ void	*dinner(void *data)
 
 	philo = (t_philo *)data;
 	wait_all(philo->args);
+
+//is full
+	while (!philo->args->end)
+	{
+		if (philo->full)
+			break ;
+	}
+//eat
+	eat(philo);
+//sleep
+// print "sleep" then usleep
+
+//think
+	think(philo);
 	return (NULL);
 }
 
@@ -45,9 +59,9 @@ long	gettime(char *str)
 		exit (1);
 	if (ft_strncmp(str, "second", 7) == 0)
 		return (tv.tv_sec + tv.tv_usec / 1e6);
-	else if (ft_strncmp(str, "millisecond", 13) == 0)
+	else if (ft_strncmp(str, "millisecond", 12) == 0)
 		return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
-	else if (ft_strncmp(str, "microsecond", 13) == 0)
+	else if (ft_strncmp(str, "microsecond", 12) == 0)
 		return (tv.tv_sec * 1e6 + tv.tv_usec);
 	return (1);
 }
