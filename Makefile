@@ -6,7 +6,7 @@
 #    By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 13:48:44 by rtavabil          #+#    #+#              #
-#    Updated: 2024/03/12 14:18:23 by rtavabil         ###   ########.fr        #
+#    Updated: 2024/03/12 15:09:03 by rtavabil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,3 +41,4 @@ re: fclean all
 
 .PHONY: all re clean fclean 
 
+#philosophers.c arguments.c functions.c strings.c initialization.c algorithm.c utils.c 

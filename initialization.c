@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:51:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/11 14:39:23 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:15:30 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	init(t_args *args)
 			* args->number_of_philosophers);
 	args->forks = (t_fork *)ft_malloc(sizeof(t_fork)
 			* args->number_of_philosophers);
+	ft_mutex(&args->args_mutex, "init");
+	ft_mutex(&args->print_mutex, "init");
 	while (i < args->number_of_philosophers)
 	{
 		ft_mutex(&args->forks[i].fork, "init");

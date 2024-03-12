@@ -6,25 +6,25 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:25:05 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/12 14:20:11 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:17:51 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	get_bool(pthread_mutex_t *mutex, long int *value)
+int	get_bool(pthread_mutex_t *args_mutex, long int *value)
 {
 	int	ret;
 
-	ft_mutex(mutex, "lock");
+	ft_mutex(args_mutex, "lock");
 	ret = *value;
-	ft_mutex(mutex, "unlock");
+	ft_mutex(args_mutex, "unlock");
 	return (ret);
 }
 
 void	wait_all(t_args *args)
 {
-	while (!get_bool(&args->mutex, &args->all_ready))
+	while (!get_bool(&args->args_mutex, &args->all_ready))
 		;
 }
 
@@ -44,6 +44,8 @@ void	*dinner(void *data)
 //eat
 	eat(philo);
 //sleep
+	ft_print(philo, "sleep");
+	ft_usleep(philo->args->time_to_sleep, philo->args);
 // print "sleep" then usleep
 
 //think
@@ -79,9 +81,9 @@ void	algorithm(t_args *args)
 		i++;
 	}
 	args->start = gettime("millisecond");
-	ft_mutex(&args->mutex, "lock");
+	ft_mutex(&args->args_mutex, "lock");
 	args->all_ready = 1;
-	ft_mutex(&args->mutex, "unlock");
+	ft_mutex(&args->args_mutex, "unlock");
 	i = 0;
 	while (i < args->number_of_philosophers)
 	{
