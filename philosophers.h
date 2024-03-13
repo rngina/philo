@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/12 17:13:43 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:33:36 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_args
 	pthread_mutex_t	args_mutex;
 	pthread_mutex_t	print_mutex;
 	long int		all_ready;
+
+	pthread_t		monitor;
 }		t_args;
 
 typedef struct s_fork
@@ -76,6 +78,8 @@ long		gettime(char *str);
 void		ft_usleep(long time, t_args *args);
 
 
-void	ft_print(t_philo *philo, char *str);
+void		ft_print(t_philo *philo, char *str);
+
+void		algorithm(t_args *args);
 
 #endif

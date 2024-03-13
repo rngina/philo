@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:25:05 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/12 17:17:51 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:23:13 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,47 @@ void	wait_all(t_args *args)
 		;
 }
 
+void	eat(t_philo *philo)
+{
+	ft_mutex(&philo->first->fork, "lock");
+	ft_print(philo, "fork");
+	ft_mutex(&philo->second->fork, "lock");
+	ft_print(philo, "fork");
+	//should there be mutex for philo?
+	philo->eat_count++;
+	philo->last_eat = gettime("millisecond");
+	ft_print(philo, "eat");
+	ft_usleep(philo->args->time_to_eat, philo->args);
+	if ((philo->eat_count > 0) && (philo->eat_count == philo->args->must_eat))
+		philo->full = 1;
+	ft_mutex(&philo->first->fork, "unlock");
+	ft_mutex(&philo->second->fork, "unlock");
+}
+
+void	think(t_philo *philo)
+{
+	ft_print(philo, "think");
+}
+
 void	*dinner(void *data)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	wait_all(philo->args);
-
-//is full
+//feels like should add mutex here
 	while (!philo->args->end)
 	{
 		if (philo->full)
 			break ;
-	}
 //eat
 	eat(philo);
 //sleep
 	ft_print(philo, "sleep");
 	ft_usleep(philo->args->time_to_sleep, philo->args);
-// print "sleep" then usleep
-
 //think
 	think(philo);
+	}
 	return (NULL);
 }
 
@@ -68,6 +87,15 @@ long	gettime(char *str)
 	return (1);
 }
 
+void	monitor(void *data)
+{
+	t_args	*args;
+
+	args = (t_args *)data;
+	
+	return (NULL);
+}
+
 void	algorithm(t_args *args)
 {
 	int	i;
@@ -77,9 +105,11 @@ void	algorithm(t_args *args)
 	i = 0;
 	while (i < args->number_of_philosophers)
 	{
-		ft_thread(&args->philos[i].thread, &dinner, &args->philos, "create");
+		ft_thread(&args->philos[i].thread, dinner, &args->philos[i], "create");
 		i++;
 	}
+	ft_thread(&args->monitor, monitor, args, "create");
+
 	args->start = gettime("millisecond");
 	ft_mutex(&args->args_mutex, "lock");
 	args->all_ready = 1;
@@ -88,6 +118,7 @@ void	algorithm(t_args *args)
 	while (i < args->number_of_philosophers)
 	{
 		ft_thread(&args->philos[i].thread, &dinner, &args->philos, "join");
+		printf("thread %d joined\n", i);
 		i++;
 	}
 }

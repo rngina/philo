@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:40:21 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/04 15:02:29 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:15:50 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	mutex_error(int status)
 
 void	ft_mutex(pthread_mutex_t *mutex, char *func)
 {
-	if (ft_strncmp(func, "lock", 4))
+	if (ft_strncmp(func, "lock", 4) == 0)
 		mutex_error(pthread_mutex_lock(mutex));
-	else if (ft_strncmp(func, "unlock", 6))
+	else if (ft_strncmp(func, "unlock", 6) == 0)
 		mutex_error(pthread_mutex_unlock(mutex));
-	else if (ft_strncmp(func, "init", 4))
+	else if (ft_strncmp(func, "init", 4) == 0)
 		mutex_error(pthread_mutex_init(mutex, NULL));
-	else if (ft_strncmp(func, "destroy", 7))
+	else if (ft_strncmp(func, "destroy", 7) == 0)
 		mutex_error(pthread_mutex_destroy(mutex));
 }
 
@@ -61,10 +61,10 @@ void	thread_error(int status)
 
 void	ft_thread(pthread_t *thread, void *(f)(void *), void *data, char *func)
 {
-	if (ft_strncmp(func, "create", 6))
+	if (ft_strncmp(func, "create", 6) == 0)
 		pthread_create(thread, NULL, f, data);
-	else if (ft_strncmp(func, "join", 4))
+	else if (ft_strncmp(func, "join", 4) == 0)
 		pthread_join(*thread, NULL);
-	else if (ft_strncmp(func, "detach", 6))
+	else if (ft_strncmp(func, "detach", 6) == 0)
 		pthread_detach(*thread);
 }

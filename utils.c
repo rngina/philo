@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:07:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/12 16:51:14 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:18:00 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	ft_print(t_philo *philo, char *str)
 {
 	ft_mutex(&philo->args->print_mutex, "lock");
 	if (!ft_strncmp("eat", str, 4) && !philo->args->end)
-		printf("%ld ms  %d  is eating\n", gettime("millisecond") - philo->args->start, philo->index);
+		printf("%ld %d  is eating\n", gettime("millisecond") - philo->args->start, philo->index);
 	if (!ft_strncmp("sleep", str, 6) && !philo->args->end)
-		printf("%ld ms  %d  is sleeping\n", gettime("millisecond") - philo->args->start, philo->index);
+		printf("%ld %d  is sleeping\n", gettime("millisecond") - philo->args->start, philo->index);
 	if (!ft_strncmp("think", str, 6) && !philo->args->end)
-		printf("%ld ms  %d  is thinking\n", gettime("millisecond") - philo->args->start, philo->index);
+		printf("%ld %d  is thinking\n", gettime("millisecond") - philo->args->start, philo->index);
 	if (!ft_strncmp("fork", str, 5) && !philo->args->end)
-		printf("%ld ms  %d  has taken a fork\n", gettime("millisecond") - philo->args->start, philo->index);
+		printf("%ld %d  has taken a fork\n", gettime("millisecond") - philo->args->start, philo->index);
 	if (!ft_strncmp("died", str, 5) && !philo->args->end)
-		printf("%ld ms  %d  died\n", gettime("millisecond") - philo->args->start, philo->index);
+		printf("%ld %d  died\n", gettime("millisecond") - philo->args->start, philo->index);
 	ft_mutex(&philo->args->print_mutex, "unlock");
 }
