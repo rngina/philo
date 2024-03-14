@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/13 16:33:36 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:17:58 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_args
 	long int		all_ready;
 
 	pthread_t		monitor;
+	long int		num_threads;
 }		t_args;
 
 typedef struct s_fork

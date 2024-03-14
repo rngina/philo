@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:51:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/13 15:16:19 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:18:05 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void	init(t_args *args)
 
 	}
 	args->all_ready = 0;
+	args->num_threads = 0;
 	init_philo(args);
 }

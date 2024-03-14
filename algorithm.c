@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:25:05 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/13 17:23:13 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:30:57 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,20 @@ long	gettime(char *str)
 	return (1);
 }
 
-void	monitor(void *data)
+int	all_threads_run(t_args *args)
+{
+	ft_mutex(&args->args_mutex, "lock");
+
+	ft_mutex(&args->args_mutex, "unlock");
+}
+
+void	*monitor(void *data)
 {
 	t_args	*args;
 
 	args = (t_args *)data;
+	while (all_threads_run(args))
+		;
 	
 	return (NULL);
 }
