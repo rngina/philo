@@ -6,7 +6,7 @@
 #    By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 13:48:44 by rtavabil          #+#    #+#              #
-#    Updated: 2024/03/14 12:27:28 by rtavabil         ###   ########.fr        #
+#    Updated: 2024/03/20 18:00:15 by rtavabil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC := philosophers.c arguments.c functions.c strings.c \
 OBJ := $(SRC:.c=.o)
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror #-fsanitize=thread -g3 -gdwarf-3
+CFLAGS := -Wall -Wextra -Werror -fsanitize=thread -g3 -gdwarf-3
 
 OBJ_PATH := obj/
 OBJS := $(addprefix $(OBJ_PATH), $(OBJ))

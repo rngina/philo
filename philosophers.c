@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:27:43 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/13 15:17:29 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:37:28 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ int	main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		set_args(argv, &args);
-		printf("args are set\n");
 		init(&args);
-		printf("init\n");
 		//test_print(args);
 		algorithm(&args);
-		printf("algorithm\n");
 	}
 	else
 		write(2, "Invalid number of arguments\n", 29);

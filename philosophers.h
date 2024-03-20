@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/14 14:17:58 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:07:52 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,15 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
-	int			index;
-	pthread_t	thread;
-	int			eat_count;
-	long int	last_eat;
-	t_fork		*first;
-	t_fork		*second;
-	int			full;
-	t_args		*args;
+	int				index;
+	pthread_t		thread;
+	int				eat_count;
+	long int		last_eat;
+	t_fork			*first;
+	t_fork			*second;
+	long				full;
+	t_args			*args;
+	pthread_mutex_t	mutex;
 }		t_philo;
 
 void		set_args(char **argv, t_args *args);
@@ -82,5 +83,9 @@ void		ft_usleep(long time, t_args *args);
 void		ft_print(t_philo *philo, char *str);
 
 void		algorithm(t_args *args);
+
+int			is_finished(t_args *args);
+
+int	get_bool(pthread_mutex_t *args_mutex, long int *value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:07:52 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/13 16:18:00 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:34:32 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_usleep(long time, t_args *args)
 	start = gettime("microsecond");
 	while (gettime("microsecond") - start < time)
 	{
-		if (args->end)
+		if (get_bool(&args->args_mutex, &args->end))
 			break ;
 		rem = time - (gettime("microsecond") - start);
 		if (rem > 1e3)
@@ -46,7 +46,7 @@ void	ft_print(t_philo *philo, char *str)
 		printf("%ld %d  is thinking\n", gettime("millisecond") - philo->args->start, philo->index);
 	if (!ft_strncmp("fork", str, 5) && !philo->args->end)
 		printf("%ld %d  has taken a fork\n", gettime("millisecond") - philo->args->start, philo->index);
-	if (!ft_strncmp("died", str, 5) && !philo->args->end)
+	if (!ft_strncmp("died", str, 5) && get_bool(&philo->args->args_mutex, &philo->args->end))
 		printf("%ld %d  died\n", gettime("millisecond") - philo->args->start, philo->index);
 	ft_mutex(&philo->args->print_mutex, "unlock");
 }

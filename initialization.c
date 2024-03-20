@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:51:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/14 14:18:05 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:31:59 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_philo(t_args *args)
 			args->philos[i].second = &(args->forks[(i + 1) % num]);
 		}
 		i++;
+		ft_mutex(&args->philos[i].mutex, "init");
 	}
 }
 
@@ -51,7 +52,6 @@ void	init(t_args *args)
 		ft_mutex(&args->forks[i].fork, "init");
 		args->forks[i].fork_id = i;
 		i++;
-
 	}
 	args->all_ready = 0;
 	args->num_threads = 0;
