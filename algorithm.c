@@ -6,56 +6,11 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:25:05 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/21 16:38:10 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:57:18 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	eat(t_philo *philo)
-{
-	ft_mutex(&philo->first->fork, "lock");
-	ft_print(philo, "fork");
-	ft_mutex(&philo->second->fork, "lock");
-	ft_print(philo, "fork");
-	philo->eat_count++;
-
-	ft_mutex(&philo->mutex, "lock");
-	philo->last_eat = gettime("millisecond");
-	ft_mutex(&philo->mutex, "unlock");
-
-	ft_print(philo, "eat");
-	ft_usleep(philo->args->time_to_eat, philo->args);
-	if ((philo->eat_count > 0) && (philo->eat_count == philo->args->must_eat))
-	{
-		ft_mutex(&philo->mutex, "lock");
-		philo->full = 1;
-		ft_mutex(&philo->mutex, "unlock");
-	}
-	ft_mutex(&philo->first->fork, "unlock");
-	ft_mutex(&philo->second->fork, "unlock");
-}
-
-int	get_bool(pthread_mutex_t *mutex, long int *value)
-{
-	int	ret;
-
-	ft_mutex(mutex, "lock");
-	ret = *value;
-	ft_mutex(mutex, "unlock");
-	return (ret);
-}
-
-void	think(t_philo *philo)
-{
-	ft_print(philo, "think");
-}
-
-void	 wait_all(t_args *args)
-{
-	while (!get_bool(&args->args_mutex, &args->all_ready))
-		;
-}
 
 void	*dinner(void *data)
 {
@@ -64,10 +19,10 @@ void	*dinner(void *data)
 	philo = (t_philo *)data;
 	wait_all(philo->args);
 	ft_mutex(&philo->args->args_mutex, "lock");
-	philo->args->num_threads++;
+	philo->args->num_th++;
 	ft_mutex(&philo->args->args_mutex, "unlock");
 	ft_mutex(&philo->mutex, "lock");
-	philo->last_eat = gettime("millisecond");
+	philo->last_eat = gettime("milli");
 	ft_mutex(&philo->mutex, "unlock");
 	while (!is_finished(philo->args))
 	{
@@ -75,52 +30,10 @@ void	*dinner(void *data)
 			break ;
 		eat(philo);
 		ft_print(philo, "sleep");
-		ft_usleep(philo->args->time_to_sleep, philo->args);
+		ft_usleep(philo->args->t_sleep, philo->args);
 		think(philo);
 	}
 	return (NULL);
-}
-
-long	gettime(char *str)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL))
-		exit (1);
-	if (ft_strncmp(str, "second", 7) == 0)
-		return (tv.tv_sec + tv.tv_usec / 1e6);
-	else if (ft_strncmp(str, "millisecond", 12) == 0)
-		return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
-	else if (ft_strncmp(str, "microsecond", 12) == 0)
-		return (tv.tv_sec * 1e6 + tv.tv_usec);
-	return (1);
-}
-
-int	all_threads_run(t_args *args)
-{
-	int	ret;
-
-	ret = 1;
-	ft_mutex(&args->args_mutex, "lock");
-	if (args->number_of_philosophers == args->num_threads)
-		ret = 0;
-	ft_mutex(&args->args_mutex, "unlock");
-	return (ret);
-}
-
-long	get_long(t_philo *philo, long *value)
-{
-	long	ret;
-
-	ft_mutex(&philo->mutex, "lock");
-	ret = *value;
-	ft_mutex(&philo->mutex, "unlock");
-	return (ret);
-}
-
-int	is_finished(t_args *args)
-{
-	return (get_bool(&args->args_mutex, &args->end));
 }
 
 int	is_died(t_philo *philo)
@@ -130,9 +43,9 @@ int	is_died(t_philo *philo)
 
 	if (get_bool(&philo->mutex, &philo->full))
 		return (0);
-	elapsed = gettime("millisecond") - get_long(philo,
+	elapsed = gettime("milli") - get_long(philo,
 			&philo->last_eat);
-	t_to_die = philo->args->time_to_die / 1e3;
+	t_to_die = philo->args->t_die / 1e3;
 	if (elapsed > t_to_die)
 		return (1);
 	return (0);
@@ -149,7 +62,7 @@ void	*monitor(void *data)
 	while (!is_finished(args))
 	{
 		i = 0;
-		while (i < args->number_of_philosophers && !is_finished(args))
+		while (i < args->num_phil && !is_finished(args))
 		{
 			if (is_died(args->philos + i))
 			{
@@ -157,7 +70,7 @@ void	*monitor(void *data)
 				args->end = 1;
 				ft_mutex(&args->args_mutex, "unlock");
 				ft_print(args->philos + i, "died");
-				break;
+				break ;
 			}
 			i++;
 		}
@@ -172,10 +85,10 @@ void	*one_philo(void *data)
 	philo = (t_philo *)data;
 	wait_all(philo->args);
 	ft_mutex(&philo->args->args_mutex, "lock");
-	philo->args->num_threads++;
+	philo->args->num_th++;
 	ft_mutex(&philo->args->args_mutex, "unlock");
 	ft_mutex(&philo->mutex, "lock");
-	philo->last_eat = gettime("millisecond");
+	philo->last_eat = gettime("milli");
 	ft_mutex(&philo->mutex, "unlock");
 	ft_print(philo, "fork");
 	while (!is_finished(philo->args))
@@ -190,25 +103,23 @@ void	algorithm(t_args *args)
 	i = -1;
 	if (args->must_eat == 0)
 		return ;
-	if (args->number_of_philosophers == 1)
-		ft_thread(&args->philos[0].thread, one_philo, &args->philos[0], "create");
+	if (args->num_phil == 1)
+		ft_thread(&args->philos[0].thread, one_philo, \
+				&args->philos[0], "create");
 	else
-		while (++i < args->number_of_philosophers)
-			ft_thread(&args->philos[i].thread, dinner, &args->philos[i], "create");
+		while (++i < args->num_phil)
+			ft_thread(&args->philos[i].thread, dinner, \
+					&args->philos[i], "create");
 	ft_thread(&args->monitor, monitor, args, "create");
-	args->start = gettime("millisecond");
+	args->start = gettime("milli");
 	ft_mutex(&args->args_mutex, "lock");
 	args->all_ready = 1;
 	ft_mutex(&args->args_mutex, "unlock");
 	i = -1;
-	while (++i < args->number_of_philosophers)
-	{
+	while (++i < args->num_phil)
 		ft_thread(&args->philos[i].thread, dinner, &args->philos[i], "join");
-		printf("thread %d has joined\n", i);
-	}
 	ft_mutex(&args->args_mutex, "lock");
 	args->end = 1;
 	ft_mutex(&args->args_mutex, "unlock");
 	ft_thread(&args->monitor, monitor, args, "join");
-	printf("monitor has joined\n");
 }

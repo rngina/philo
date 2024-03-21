@@ -1,4 +1,4 @@
-//include "philosophers.h"
+#include "philosophers.h"
 
 // long    gettime(char *str)
 // {
@@ -14,6 +14,20 @@
 //         return (tv.tv_sec * 1e6 + tv.tv_usec);
 //     return (1);
 // }
+
+void	test_print(t_args args)
+{
+	printf("num_of_philosophers = %ld\n", args.num_phil);
+	printf("time_to_die = %ld us\n", args.t_die);
+	printf("time_to_eat = %ld us\n", args.t_eat);
+	printf("time_to_sleep = %ld us\n", args.t_sleep);
+	printf("must_eat = %ld\n",
+		args.must_eat);
+	for (int i = 0; i < args.num_phil; i++)
+	{
+		printf("philo=%d fork1=%ld fork2=%ld\n", args.philos[i].index, args.philos[i].first->fork_id, args.philos[i].second->fork_id);
+	}
+}
 
 #include <stdio.h>
 
@@ -35,10 +49,10 @@ int	ft_strncmp(char *s1, char *s2, int n)
 
 void	ft_print(char *str)
 {
-//	ft_mutex(&philo->args->print_mutex, "lock");
+//	ft_mutex(&philo->args->pr_mutex, "lock");
 	if (!ft_strncmp("eat", str, 4))
 		printf(" is eating\n");
-	//ft_mutex(&philo->args->print_mutex, "unlock");
+	//ft_mutex(&philo->args->pr_mutex, "unlock");
 }
 
 int main()
