@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 12:29:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/20 18:07:52 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:59:07 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void		algorithm(t_args *args);
 
 int			is_finished(t_args *args);
 
-int	get_bool(pthread_mutex_t *args_mutex, long int *value);
+int			get_bool(pthread_mutex_t *mutex, long int *value);
+
+void		ft_free(t_args *args);
 
 #endif

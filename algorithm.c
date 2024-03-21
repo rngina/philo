@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:25:05 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/03/20 18:37:22 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:38:10 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,40 @@ void	eat(t_philo *philo)
 	ft_print(philo, "fork");
 	ft_mutex(&philo->second->fork, "lock");
 	ft_print(philo, "fork");
-	//should there be mutex for philo?
 	philo->eat_count++;
 
 	ft_mutex(&philo->mutex, "lock");
 	philo->last_eat = gettime("millisecond");
 	ft_mutex(&philo->mutex, "unlock");
 
-
 	ft_print(philo, "eat");
 	ft_usleep(philo->args->time_to_eat, philo->args);
 	if ((philo->eat_count > 0) && (philo->eat_count == philo->args->must_eat))
+	{
+		ft_mutex(&philo->mutex, "lock");
 		philo->full = 1;
+		ft_mutex(&philo->mutex, "unlock");
+	}
 	ft_mutex(&philo->first->fork, "unlock");
 	ft_mutex(&philo->second->fork, "unlock");
 }
 
-int	get_bool(pthread_mutex_t *args_mutex, long int *value)
+int	get_bool(pthread_mutex_t *mutex, long int *value)
 {
 	int	ret;
 
-	ft_mutex(args_mutex, "lock");
+	ft_mutex(mutex, "lock");
 	ret = *value;
-	ft_mutex(args_mutex, "unlock");
+	ft_mutex(mutex, "unlock");
 	return (ret);
 }
-//put all in one function
+
 void	think(t_philo *philo)
 {
 	ft_print(philo, "think");
 }
 
-void	wait_all(t_args *args)
+void	 wait_all(t_args *args)
 {
 	while (!get_bool(&args->args_mutex, &args->all_ready))
 		;
@@ -163,29 +165,50 @@ void	*monitor(void *data)
 	return (NULL);
 }
 
+void	*one_philo(void *data)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)data;
+	wait_all(philo->args);
+	ft_mutex(&philo->args->args_mutex, "lock");
+	philo->args->num_threads++;
+	ft_mutex(&philo->args->args_mutex, "unlock");
+	ft_mutex(&philo->mutex, "lock");
+	philo->last_eat = gettime("millisecond");
+	ft_mutex(&philo->mutex, "unlock");
+	ft_print(philo, "fork");
+	while (!is_finished(philo->args))
+		usleep(100);
+	return (NULL);
+}
+
 void	algorithm(t_args *args)
 {
 	int	i;
 
+	i = -1;
 	if (args->must_eat == 0)
 		return ;
-	i = 0;
-	while (i < args->number_of_philosophers)
-	{
-		ft_thread(&args->philos[i].thread, dinner, &args->philos[i], "create");
-		i++;
-	}
+	if (args->number_of_philosophers == 1)
+		ft_thread(&args->philos[0].thread, one_philo, &args->philos[0], "create");
+	else
+		while (++i < args->number_of_philosophers)
+			ft_thread(&args->philos[i].thread, dinner, &args->philos[i], "create");
 	ft_thread(&args->monitor, monitor, args, "create");
-
 	args->start = gettime("millisecond");
 	ft_mutex(&args->args_mutex, "lock");
 	args->all_ready = 1;
 	ft_mutex(&args->args_mutex, "unlock");
-	i = 0;
-	while (i < args->number_of_philosophers)
+	i = -1;
+	while (++i < args->number_of_philosophers)
 	{
-		ft_thread(&args->philos[i].thread, NULL, NULL, "join");
-		i++;
+		ft_thread(&args->philos[i].thread, dinner, &args->philos[i], "join");
+		printf("thread %d has joined\n", i);
 	}
-	ft_thread(&args->monitor, NULL, NULL, "join");
+	ft_mutex(&args->args_mutex, "lock");
+	args->end = 1;
+	ft_mutex(&args->args_mutex, "unlock");
+	ft_thread(&args->monitor, monitor, args, "join");
+	printf("monitor has joined\n");
 }

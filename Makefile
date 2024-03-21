@@ -6,18 +6,18 @@
 #    By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 13:48:44 by rtavabil          #+#    #+#              #
-#    Updated: 2024/03/20 18:00:15 by rtavabil         ###   ########.fr        #
+#    Updated: 2024/03/21 16:58:53 by rtavabil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := philo
 
 SRC := philosophers.c arguments.c functions.c strings.c \
-	   initialization.c algorithm.c utils.c 
+	   initialization.c algorithm.c utils.c free.c
 OBJ := $(SRC:.c=.o)
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -fsanitize=thread -g3 -gdwarf-3
+CFLAGS := -Wall -Wextra -Werror -g3 -gdwarf-3 -fsanitize=thread 
 
 OBJ_PATH := obj/
 OBJS := $(addprefix $(OBJ_PATH), $(OBJ))
